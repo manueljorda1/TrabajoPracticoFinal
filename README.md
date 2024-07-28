@@ -17,8 +17,6 @@ Instrucciones para ejecutar la aplicacion web en linux:
 
 -Para agregar, editar o eliminar productos usar las funciones respectivas en app.py
 
-
-
-
+-Para ejecutar la apliacion web "python3 app.py"
 
 
