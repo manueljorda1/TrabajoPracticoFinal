@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Mercado-NO-Libre</h1>
+<h2>Productos</h2>
+
+<div class="productos">
+    {% for producto in productos %}
+    <div class="producto">
+        <img src="{{ url_for('static', filename='images/' + producto['imagen']) }}" alt="{{ producto['nombre'] }}">
+        <h2>{{ producto['nombre'] }}</h2>
+        <p>Precio: ${{ producto['precio'] }}</p>
+        <a href="{{ url_for('add_to_cart', product_id=producto.id, quantity=1) }}">Agregar 1 al carrito</a>    </div>
+    {% endfor %}
+</div>
+{% endblock %}

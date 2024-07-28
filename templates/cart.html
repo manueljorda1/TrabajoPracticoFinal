@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+<h1>Carrito de compras</h1>
+
+<div class="carrito">
+    {% if message %}
+        <p class="custom-text">{{ message }}</p>
+    {% elif cart_products %}
+        {% for producto in cart_products %}
+        <div class="producto">
+            <img src="{{ url_for('static', filename='images/' + producto.imagen) }}" alt="{{ producto.nombre }}">
+            <h2>{{ producto.nombre }}</h2>
+            <p>Precio: ${{ producto.precio }}</p>
+            <a href="{{ url_for('remove_from_cart', product_id=producto.id) }}" class="remove-from-cart">Eliminar</a>
+        </div>
+        {% endfor %}
+        <div class="total">
+            <h3>Total: ${{ total }}</h3>
+        </div>
+        <a href="#" class="checkout-button">Proceder al pago</a>
+    {% else %}
+    <p class="custom-text">
+        Tu carrito está vacío. Vuelve al inicio y agrega productos!
+    </p>
+    {% endif %}
+</div>
+
+{% endblock %}
