@@ -130,7 +130,7 @@ def register():
             flash('Este usuario ya existe', 'error')
     return render_template('register.html')
 
-@app.route('/forgot_password', methods=['GET', 'POST'])
+@app.route('/cambiar_contrasena', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
         username = request.form['username'].lower()
@@ -148,7 +148,7 @@ def forgot_password():
         else:
             flash('El nombre de usuario no existe', 'error')
     
-    return render_template('forgot_password.html')
+    return render_template('cambiar_contrasena.html')
 
 
 @app.route('/product/<int:product_id>')
