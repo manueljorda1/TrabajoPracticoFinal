@@ -1,0 +1,413 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.custom-text {
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+    color: blue;
+}
+.password-reset {
+    margin-top: 20px;
+}
+
+.password-reset form {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.password-reset label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.password-reset input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.password-reset button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.password-reset button:hover {
+    background-color: #0056b3;
+}
+
+.error-message, .success-message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    color: white;
+}
+
+.error-message {
+    background-color: #dc3545;
+}
+
+.success-message {
+    background-color: #28a745;
+}
+
+
+
+#flash-messages {
+    margin-top: 20px;
+}
+.popup-message {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px;
+    background-color: #444;
+    color: #fff;
+    border-radius: 5px;
+    display: none;
+    z-index: 1000;
+}
+.popup-message.success {
+    background-color: #4CAF50;
+}
+.popup-message.error {
+    background-color: #f44336;
+}
+
+/* Estilos para el formulario de login */
+.login-form {
+    width: 400px; /* Ajusta el ancho según tus necesidades */
+    margin: 0 auto; /* Centra el formulario horizontalmente */
+    padding: 20px;
+    border: 1px solid #ccc; /* Agrega un borde */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #f9f9f9; /* Fondo claro */
+}
+
+.login-form label {
+    display: block; /* Asegura que las etiquetas estén en su propia línea */
+    margin-bottom: 5px; /* Espacio debajo de las etiquetas */
+}
+
+.login-form input {
+    width: 100%; /* Asegura que los campos de entrada se ajusten al ancho del formulario */
+    padding: 8px;
+    margin-bottom: 10px; /* Espacio debajo de los campos de entrada */
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para el enlace de "He olvidado mi contraseña" */
+.forgot-password {
+    display: block; /* Asegura que el enlace esté en su propia línea */
+    text-align: center; /* Centra el enlace horizontalmente */
+    margin-top: 10px; /* Espacio arriba del enlace */
+    color: #007bff;
+    text-decoration: none; /* Quita el subrayado del enlace */
+}
+
+.forgot-password:hover {
+    text-decoration: underline; /* Subrayado al pasar el ratón */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    margin: 0; /* Eliminar los márgenes del body */
+    padding: 0; /* Eliminar el padding del body si existe */
+}
+
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+header nav ul li a:hover {
+    text-decoration: underline;
+}
+.carrito {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.producto {
+    flex: 1 1 calc(25% - 20px); /* 4 productos por fila, ajusta según tu diseño */
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    text-align: center;
+    overflow: hidden;
+}
+
+.producto img {
+    width: 100%;
+    height: auto;
+    max-width: 200px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.total {
+    width: 100%;
+    text-align: right;
+    margin-top: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.checkout-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.checkout-button:hover {
+    background-color: #218838;
+}
+
+
+
+.total {
+    margin-top: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.checkout-button {
+    display: inline-block;
+    margin: 20px 0;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.checkout-button:hover {
+    background-color: #218838;
+}
+
+h1 {
+    font-weight: bold; /* Hacer el texto en negrita */
+    background-color: yellow; /* Color de fondo amarillo */
+    margin: 0; /* Quitar márgenes alrededor del h1 */
+    padding: 20px; /* Añadir padding para que el rectángulo sea más grande */
+    text-align: center; /* Alinear el texto al centro */
+    width: 100%; /* Asegurarse de que el h1 ocupe todo el ancho de la página */
+    box-sizing: border-box; /* Incluir padding y border en el ancho total */
+    display: block; /* Asegurar que el h1 sea un bloque */
+    left: 0; /* Asegurarse de que el h1 comience desde el margen izquierdo */
+    top: 0; /* Asegurarse de que el h1 comience desde el margen superior */
+}
+h2 {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 30px;
+    font-family: Arial, sans-serif;
+}
+
+.productos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.producto, .producto-detalle, .carrito .producto {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.producto img, .producto-detalle img, .carrito .producto img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.producto:hover, .producto-detalle:hover, .carrito .producto:hover {
+    transform: scale(1.05);
+}
+
+.producto h2, .producto-detalle h2, .carrito .producto h2 {
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.producto p, .producto-detalle p, .carrito .producto p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.producto a, .producto-detalle a {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.producto a:hover, .producto-detalle a:hover {
+    background-color: #0056b3;
+}
+
+/* Login/Register Forms */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 18px;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+.remove-from-cart, .checkout-button {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #dc3545; /* Color para eliminar */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.remove-from-cart:hover, .checkout-button:hover {
+    background-color: #c82333;
+}
+
+.checkout-button {
+    background-color: #28a745; /* Color para proceder al pago */
+}
+
+.checkout-button:hover {
+    background-color: #218838;
+}
+
+.producto img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+
+.success {
+    color: green;
+}
+
+.error {
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+    color: red;
+    text-align: center;
+}
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+}
+
+#cart-message {
+    color: blue;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
