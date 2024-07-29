@@ -20,3 +20,5 @@ Instrucciones para ejecutar la aplicacion web en linux:
 -Para ejecutar la apliacion web "python3 app.py"
 
 
+
+
