@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 
@@ -27,11 +27,10 @@ class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('producto.id'), nullable=False)
-
     usuario = db.relationship('Usuario', backref=db.backref('carts', lazy=True))
     producto = db.relationship('Producto', backref=db.backref('carts', lazy=True))
 
-# Crear la base de datos y las tablas
+# Crear las tablas si no existen
 with app.app_context():
     db.create_all()
 
@@ -72,23 +71,32 @@ def actualizar_producto(product_id, nuevo_nombre=None, nueva_categoria=None, nue
             producto.precio = nuevo_precio
         if nueva_imagen:
             producto.imagen = nueva_imagen
-# Función para agregar productos iniciales
-def agregar_productos_iniciales():
-    productos_a_agregar = [
-        {'id': 1, 'nombre': 'Televisor Samsung 56 pulgadas Full Hd', 'categoria': 'Categoria 1', 'precio': 350000, 'imagen': 'televisor.jpg'},
-        {'id': 2, 'nombre': 'Sony Playstation 5 1 TB', 'categoria': 'Categoria 1', 'precio': 800000, 'imagen': 'play.jpg'},
-        {'id': 3, 'nombre': 'Monitor Samsung 24 pulgadas 75hs', 'categoria': 'Categoria 1', 'precio': 120000, 'imagen': 'monitor.jpg'},
-        {'id': 4, 'nombre': 'Macbook Pro m3', 'categoria': 'Categoria 2', 'precio':4000000, 'imagen': 'macbook.jpg'},
-        {'id': 5, 'nombre': 'Iphone 15 Pro Max 256gb', 'categoria': 'Categoria 2', 'precio': 1500000, 'imagen': 'iphone.jpg'},
-        {'id': 6, 'nombre': 'Airpods 3', 'categoria': 'Categoria 2', 'precio': 150000, 'imagen': 'airpods.jpg'},
-        {'id': 7, 'nombre': 'Airpods Max', 'categoria': 'Categoria 3', 'precio':300000, 'imagen': 'airpodsmax.jpg'},
-        {'id': 8, 'nombre': 'Aire acondicionado Whirpool frio/calor', 'categoria': 'Categoria 3', 'precio': 450000, 'imagen': 'aire.jpg'},
-        {'id': 9, 'nombre': 'Heladera Samsung Pro', 'categoria': 'Categoria 3', 'precio': 999999, 'imagen': 'heladera.jpg'},
-        {'id': 10, 'nombre': 'Cafetera', 'categoria': 'Categoria 3', 'precio': 220000, 'imagen': 'cafetera.jpg'}
-    ]
-    for producto in productos_a_agregar:
-        agregar_producto(producto['nombre'], producto['categoria'], producto['precio'], producto['imagen'])
+        try:
+            db.session.commit()
+            print(f'Producto "{producto.nombre}" actualizado exitosamente.')
+        except Exception as e:
+            db.session.rollback()
+            print(f'Error al actualizar el producto: {e}')
+    else:
+        print('El producto no existe.')
 
+# Función para agregar productos iniciales solo si están vacíos
+def agregar_productos_iniciales():
+    if not Producto.query.first():
+        productos_a_agregar = [
+            {'nombre': 'Televisor Samsung 56 pulgadas Full Hd', 'categoria': 'Categoria 1', 'precio': 350000, 'imagen': 'televisor.jpg'},
+            {'nombre': 'Sony Playstation 5 1 TB', 'categoria': 'Categoria 1', 'precio': 800000, 'imagen': 'play.jpg'},
+            {'nombre': 'Monitor Samsung 24 pulgadas 75hs', 'categoria': 'Categoria 1', 'precio': 120000, 'imagen': 'monitor.jpg'},
+            {'nombre': 'Macbook Pro m3', 'categoria': 'Categoria 2', 'precio': 4000000, 'imagen': 'macbook.jpg'},
+            {'nombre': 'Iphone 15 Pro Max 256gb', 'categoria': 'Categoria 2', 'precio': 1500000, 'imagen': 'iphone.jpg'},
+            {'nombre': 'Airpods 3', 'categoria': 'Categoria 2', 'precio': 150000, 'imagen': 'airpods.jpg'},
+            {'nombre': 'Airpods Max', 'categoria': 'Categoria 3', 'precio': 300000, 'imagen': 'airpodsmax.jpg'},
+            {'nombre': 'Aire acondicionado Whirpool frio/calor', 'categoria': 'Categoria 3', 'precio': 450000, 'imagen': 'aire.jpg'},
+            {'nombre': 'Heladera Samsung Pro', 'categoria': 'Categoria 3', 'precio': 999999, 'imagen': 'heladera.jpg'}
+            
+        ]
+        for producto in productos_a_agregar:
+            agregar_producto(producto['nombre'], producto['categoria'], producto['precio'], producto['imagen'])
 
 @app.route('/')
 def index():
@@ -151,13 +159,6 @@ def forgot_password():
     return render_template('cambiar_contrasena.html')
 
 
-@app.route('/product/<int:product_id>')
-def product(product_id):
-    producto = Producto.query.get(product_id)
-    if producto:
-        return render_template('product.html', producto=producto)
-    return redirect(url_for('index'))
-
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
     if 'username' in session:
@@ -204,15 +205,67 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
+@app.route('/api/products', methods=['GET'])
+def api_get_products():
+    productos = Producto.query.all()
+    return jsonify([{'id': p.id, 'nombre': p.nombre, 'categoria': p.categoria, 'precio': p.precio, 'imagen': p.imagen} for p in productos])
+
+@app.route('/api/products/<int:product_id>', methods=['GET'])
+def api_get_product(product_id):
+    producto = Producto.query.get(product_id)
+    if producto:
+        return jsonify({'id': producto.id, 'nombre': producto.nombre, 'categoria': producto.categoria, 'precio': producto.precio, 'imagen': producto.imagen})
+    return jsonify({'error': 'Producto no encontrado'}), 404
+
+@app.route('/api/products', methods=['POST'])
+def api_add_product():
+    data = request.get_json()
+    nombre = data.get('nombre')
+    categoria = data.get('categoria')
+    precio = data.get('precio')
+    imagen = data.get('imagen')
+    agregar_producto(nombre, categoria, precio, imagen)
+    return jsonify({'message': 'Producto agregado exitosamente'}), 201
+
+@app.route('/api/products/<int:product_id>', methods=['PUT'])
+def api_update_product(product_id):
+    data = request.get_json()
+    nuevo_nombre = data.get('nombre')
+    nueva_categoria = data.get('categoria')
+    nuevo_precio = data.get('precio')
+    nueva_imagen = data.get('imagen')
+    actualizar_producto(product_id, nuevo_nombre, nueva_categoria, nuevo_precio, nueva_imagen)
+    return jsonify({'message': 'Producto actualizado exitosamente'})
+
+@app.route('/api/products/<int:product_id>', methods=['DELETE'])
+def api_delete_product(product_id):
+    eliminar_producto(product_id)
+    return jsonify({'message': 'Producto eliminado exitosamente'})
+
 if __name__ == '__main__':
-    
-    #with app.app_context():
-        #agregar_producto('Estufa a Gas', 'Categoria 3', 250000, 'cafetera.jpg')
-        #eliminar_producto(15)
-        #actualizar_producto(#product_id=1, #nuevo_nombre='Televisor LG 60 pulgadas 4K', #nueva_categoria='Electrodomésticos',
-        #nuevo_precio=400000,
-        #nueva_imagen='televisor-lg.jpg')
+    # Agregar productos iniciales solo si no hay productos en la base de datos
+    with app.app_context():
+        agregar_productos_iniciales()
         
+        #Para eliminmar un prodcuto se puede hacer:
+        
+        #desde la consola ejecutar: curl -X DELETE http://localhost:5000/api/products/1
+
+        #Para Agregar un producto se puede hacer:
+        
+        #desde la consola ejecutar curl -X POST http://localhost:5000/api/products \
+        #-H "Content-Type: application/json" \
+        #-d '{"nombre": "Cafetera", "categoria": "Categoria 3", "precio": 220000, "imagen": "cafetera.jpg"}'
+
+        #para actualizar un producto se puede hacer:
+        
+        #desde la consola curl -X PUT http://localhost:5000/api/products/12 \
+        #-H "Content-Type: application/json" \
+        #-d '{"nombre": "Cafetera Nueva", "categoria": "Categoria 3", "precio": 3, "imagen": "cafetera_nueva.jpg"}'
+
+
+    
+    
     
     
     app.run(debug=True)
